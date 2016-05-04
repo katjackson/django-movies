@@ -1,0 +1,6 @@
+.DS_Store
+.envrc
+.direnv
+data/
+secrets.py
+__pycache__
