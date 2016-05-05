@@ -1,6 +1,3 @@
-# import re
-# from django.core.exceptions import ValidationError
-import pandas as pd
 from django.db import models
 
 
@@ -25,22 +22,6 @@ class Rater(models.Model):
     age = models.IntegerField(choices=AGE_GROUPS, blank=True)
     occupation = models.IntegerField(choices=OCCUPATION_CHOICES, blank=True)
     zip_code = models.CharField(max_length=10, blank=True)
-
-    def insert_initial_data():
-        raters = pd.read_csv(
-            '/Users/kathrynjackson/Code/homework/django-movies/data/users.dat',
-            sep='::', names=['rater_id', 'gender', 'age', 'occ', 'zip_code'],
-            header=None)
-
-        for row in raters.iterrows():
-            new = Rating(rater_id=row['rater_id'], gender=row['gender'],
-                         age=row['age'], occupation=row['occ'],
-                         zip_code=row['zip_code'])
-            new.save()
-
-    # def validate_zip_code(value):
-    #     if not re.match(r'^\d{5}(?:-\d{4})?$'):
-    #         raise ValidationError('Not a valid zip code')
 
 
 class Movie(models.Model):
