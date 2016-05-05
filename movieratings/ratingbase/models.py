@@ -24,13 +24,15 @@ class Rater(models.Model):
     zip_code = models.CharField(max_length=10, blank=True)
 
     def __str__(self):
-        return self.rater_id
+        return str(self.rater_id)
 
 
 class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=90)
     genre = models.CharField(max_length=60)
+    avg_rating = models.DecimalField(decimal_places=2, max_digits=3, null=True,
+                                     blank=True)
 
     def __str__(self):
         return self.title
@@ -42,4 +44,4 @@ class Rating(models.Model):
     rating = models.IntegerField()
 
     def __str__(self):
-        return 'Rater: {}, Rating: {}, Movie: {}'.format(self.rater.rater_id, self.rating, self.movie)
+        return 'Rater: {}, Rating: {}, Movie: {}'.format(self.rater, self.rating, self.movie)
