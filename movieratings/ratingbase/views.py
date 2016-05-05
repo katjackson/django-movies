@@ -5,9 +5,8 @@ from .models import Movie, Rater, Rating
 
 
 def index(request):
-    # ratings = Rating.objects.filter(movie=Movie.objects.get(movie_id=6))
-    # ratings.aggregate(Avg('rating'))
-    return HttpResponse("Hello, world. You're at the ratings database index.")
+    top_twenty = Movie.objects.order_by('avg_rating').reverse()[:20]
+    return render(request, 'ratingbase/index.html', {'top_twenty': top_twenty})
 
 
 def movie_detail(request, movie_id):
