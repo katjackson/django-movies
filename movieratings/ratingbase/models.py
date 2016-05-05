@@ -23,15 +23,23 @@ class Rater(models.Model):
     occupation = models.IntegerField(choices=OCCUPATION_CHOICES, blank=True)
     zip_code = models.CharField(max_length=10, blank=True)
 
+    def __str__(self):
+        return self.rater_id
+
 
 class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=90)
     genre = models.CharField(max_length=60)
 
+    def __str__(self):
+        return self.title
+
 
 class Rating(models.Model):
     rater = models.ForeignKey('Rater', on_delete=models.CASCADE)
     movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
     rating = models.IntegerField()
-    # timestamp = models.DateTimeField()
+
+    def __str__(self):
+        return 'Rater: {}, Rating: {}, Movie: {}'.format(self.rater.rater_id, self.rating, self.movie)
