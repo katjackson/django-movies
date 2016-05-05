@@ -5,7 +5,8 @@ from .models import Movie, Rater, Rating
 
 
 def index(request):
-    top_twenty = Movie.objects.order_by('avg_rating').reverse()[:20]
+    significantly_rated = Movie.objects.filter(ratings_count__gte=15)
+    top_twenty = significantly_rated.order_by('avg_rating').reverse()[:20]
     return render(request, 'ratingbase/index.html', {'top_twenty': top_twenty})
 
 

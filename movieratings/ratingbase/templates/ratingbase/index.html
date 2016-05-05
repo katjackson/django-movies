@@ -5,7 +5,7 @@
     </tr>
     {% for movie in top_twenty %}
     <tr>
-        <td headers="c1">{{movie}}</td>
+        <td headers="c1"><a href='{% url 'ratingbase:movieDetail' movie.movie_id %}'>{{movie}}</a></td>
         <td headers="c2">{{movie.avg_rating}}</td>
     </tr>
 
