@@ -1,1 +1,16 @@
 {{movie}}
+{{movie.avg_rating}}
+
+<table>
+    <tr>
+        <th id="c1">User ID</th>
+        <th id="c2">Rating</th>
+    </tr>
+
+{% for rating in movie_ratings %}
+    <tr>
+        <td headers="c1"><a href='{% url 'ratingbase:userDetail' rating.rater.rater_id %}'>{{rating.rater}}</a></td>
+        <td headers="c2">{{rating.rating}}</td>
+    </tr>
+
+{% endfor %}

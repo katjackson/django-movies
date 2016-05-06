@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Rater(models.Model):
@@ -22,9 +23,28 @@ class Rater(models.Model):
     age = models.IntegerField(choices=AGE_GROUPS, blank=True)
     occupation = models.IntegerField(choices=OCCUPATION_CHOICES, blank=True)
     zip_code = models.CharField(max_length=10, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.rater_id)
+
+    def get_occupation(self, OCCUPATION_CHOICES=OCCUPATION_CHOICES):
+        dict_occ = dict(OCCUPATION_CHOICES)
+        return dict_occ[self.occupation]
+
+    def get_age(self, AGE_GROUPS=AGE_GROUPS):
+        dict_age = dict(AGE_GROUPS)
+        return dict_age[self.age]
+
+    @staticmethod
+    def populate_user_model():
+        for rater in Rater.objects.all():
+            user1 = User(username='username{}'.format(rater.rater_id),
+                         email='{}@fake-email.com'.format(rater.rater_id),
+                         password='password')
+            user1.save()
+            rater.user = user1
+            rater.save()
 
 
 class Movie(models.Model):

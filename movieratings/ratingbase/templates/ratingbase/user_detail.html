@@ -1,1 +1,20 @@
-{{rater}}
+User ID: {{rater}}<br>
+Gender: {{rater.gender}}<br>
+Age: {{rater.get_age}}<br>
+Occupation: {{rater.get_occupation}}<br>
+Zip Code: {{rater.zip_code}}<br>
+
+
+<table>
+    <tr>
+        <th id="c1">Movie Title</th>
+        <th id="c2">Rating</th>
+    </tr>
+
+{% for rating in ratings %}
+    <tr>
+        <td headers="c1"><a href='{% url 'ratingbase:movieDetail' rating.movie.movie_id %}'>{{rating.movie}}</a></td>
+        <td headers="c2">{{rating.rating}}</td>
+    </tr>
+
+{% endfor %}

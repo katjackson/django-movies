@@ -12,9 +12,11 @@ def index(request):
 
 def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, movie_id=movie_id)
-    return render(request, 'ratingbase/movie_detail.html', {'movie': movie})
+    movie_ratings = Rating.objects.filter(movie=movie)
+    return render(request, 'ratingbase/movie_detail.html', {'movie': movie, 'movie_ratings': movie_ratings})
 
 
 def user_detail(request, rater_id):
     rater = get_object_or_404(Rater, rater_id=rater_id)
-    return render(request, 'ratingbase/user_detail.html', {'rater': rater})
+    ratings = Rating.objects.filter(rater=rater)
+    return render(request, 'ratingbase/user_detail.html', {'rater': rater, 'ratings': ratings})
