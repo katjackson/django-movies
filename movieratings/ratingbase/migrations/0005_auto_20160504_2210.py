@@ -15,8 +15,8 @@ def initialize_movie_data(apps, schema_editor):
 
     for row in movies.iterrows():
         row = row[1].to_dict()
-        new = Movie(movie_id=int(row['movie_id'], title=row['movie_id'],
-                    genre=row['genre']))
+        new = Movie(movie_id=int(row['movie_id']), title=row['movie_id'],
+                    genre=row['genre'])
         new.save()
 
 

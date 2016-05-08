@@ -1,6 +1,13 @@
 {{movie}}
 {{movie.avg_rating}}
 
+{% if user.is_authenticated %}
+
+<p>user is authenticated</p>
+
+{% endif %}
+
+
 <table>
     <tr>
         <th id="c1">User ID</th>
@@ -14,3 +21,5 @@
     </tr>
 
 {% endfor %}
+
+</table>
