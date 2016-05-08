@@ -7,6 +7,7 @@
   {% else %}
   Hello, {{ user }}
   <a href="{% url 'logout' %}">Logout</a>
+  <a href="/ratingbase/rater/{{user.rater.rater_id}}">My Ratings</a>
   {% endif %}
 </div>
 
