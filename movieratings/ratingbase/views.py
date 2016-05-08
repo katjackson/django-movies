@@ -27,6 +27,12 @@ def user_detail(request, rater_id):
     return render(request, 'ratingbase/user_detail.html', {'rater': rater, 'ratings': ratings})
 
 
+@login_required
+def redirect(request):
+    url = '/ratingbase/rater/{}/'.format(request.user.rater.rater_id)
+    return HttpResponseRedirect(url)
+
+
 def register(request):
     if request.method == 'POST':
         user_form = UserCreationForm(request.POST)
