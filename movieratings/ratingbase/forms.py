@@ -7,3 +7,9 @@ class RaterForm(forms.ModelForm):
     class Meta:
         model = Rater
         fields = ('rater_id', 'gender', 'age', 'occupation', 'zip_code')
+
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ('rating',)

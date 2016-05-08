@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RaterForm
+from .forms import RaterForm, RatingForm
 from django.contrib.auth import authenticate, login, views
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -16,9 +17,30 @@ def index(request):
 
 
 def movie_detail(request, movie_id):
+    context = {}
+
     movie = get_object_or_404(Movie, movie_id=movie_id)
+    context['movie'] = movie
+
     movie_ratings = Rating.objects.filter(movie=movie)
-    return render(request, 'ratingbase/movie_detail.html', {'movie': movie, 'movie_ratings': movie_ratings})
+    context['movie_ratings'] = movie_ratings
+
+    rating_form = RatingForm()
+    context['rating_form'] = rating_form
+
+    if request.method == 'POST':
+        rating_form = RatingForm(request.POST)
+        if rating_form.is_valid():
+            new_rating = rating_form.save(commit=False)
+            new_rating.movie = movie
+            new_rating.rater = request.user.rater
+            new_rating.save()
+            return HttpResponseRedirect('/ratingbase/')
+        else:
+            print(rating_form.errors)
+
+    else:
+        return render(request, 'ratingbase/movie_detail.html', context)
 
 
 def user_detail(request, rater_id):
