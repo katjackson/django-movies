@@ -1,0 +1,22 @@
+{% block title %}{{ site_title|default:_('Movie Lens Ratingbase') }}{% endblock %}
+
+<div>
+  {% if user.is_anonymous %}
+  <a href="{% url 'login' %}">Login</a>
+  <a href="register/">Create an account</a>
+  {% else %}
+  Hello, {{ user }}
+  <a href="{% url 'logout' %}">Logout</a>
+  {% endif %}
+</div>
+
+<div id="content" class="{% block coltype %}colM{% endblock %}">
+    {% block pretitle %}{% endblock %}
+    {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+    {% block content %}
+    {% block object-tools %}{% endblock %}
+    {{ content }}
+    {% endblock %}
+    {% block sidebar %}{% endblock %}
+    <br class="clear" />
+</div>

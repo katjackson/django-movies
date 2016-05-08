@@ -1,5 +1,9 @@
-{{movie}}
-{{movie.avg_rating}}
+{% extends "ratingbase/base.html" %}
+
+{% block content %}
+
+<h2>{{movie}}</h2>
+<p>Average rating: {{movie.avg_rating}}</p>
 
 {% if user.is_authenticated %}
 
@@ -23,3 +27,4 @@
 {% endfor %}
 
 </table>
+{% endblock %}
