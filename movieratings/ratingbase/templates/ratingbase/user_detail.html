@@ -14,7 +14,11 @@ Zip Code: {{rater.zip_code}}<br>
 {% for rating in ratings %}
     <tr>
         <td headers="c1"><a href='{% url 'ratingbase:movieDetail' rating.movie.movie_id %}'>{{rating.movie}}</a></td>
+        {% if rating.review %}
+        <td headers="c2">{{rating.rating}}: {{rating.review}}</td>
+        {% else %}
         <td headers="c2">{{rating.rating}}</td>
+        {% endif %}
     </tr>
 
 {% endfor %}
