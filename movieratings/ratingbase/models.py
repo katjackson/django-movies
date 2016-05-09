@@ -40,10 +40,9 @@ class Rater(models.Model):
     @staticmethod
     def populate_user_model():
         for rater in Rater.objects.all():
-            user1 = User(username='username{}'.format(rater.rater_id),
-                         email='{}@fake-email.com'.format(rater.rater_id),
-                         password='password')
-            user1.save()
+            user1 = User.objects.create_user('username{}'.format(rater.rater_id),
+                        '{}@fake-email.com'.format(rater.rater_id),
+                        'password')
             rater.user = user1
             rater.save()
 
@@ -52,8 +51,7 @@ class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=90)
     genre = models.CharField(max_length=60)
-    avg_rating = models.DecimalField(decimal_places=2, max_digits=3, null=True,
-                                     blank=True)
+    avg_rating = models.FloatField(null=True, blank=True)
     ratings_count = models.IntegerField(null=True)
 
     def __str__(self):
@@ -72,3 +70,5 @@ class Rating(models.Model):
 
     # class Meta:
     #     unique_together = ('rater', 'movie')
+
+#HI 

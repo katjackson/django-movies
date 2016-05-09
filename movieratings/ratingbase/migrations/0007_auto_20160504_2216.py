@@ -9,7 +9,7 @@ def initialize_movie_data(apps, schema_editor):
     Movie = apps.get_model('ratingbase', 'Movie')
 
     movies = pd.read_csv(
-        '/Users/kathrynjackson/Code/homework/django-movies/data/movies.dat',
+        '/Users/Oakes/Desktop/data/movies.dat',
         sep='::', names=['movie_id', 'title', 'genre'],
         header=None)
 

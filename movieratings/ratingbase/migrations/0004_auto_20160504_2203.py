@@ -9,7 +9,7 @@ def initialize_rater_data(apps, schema_editor):
     Rater = apps.get_model('ratingbase', 'Rater')
 
     raters = pd.read_csv(
-        '/Users/kathrynjackson/Code/homework/django-movies/data/users.dat',
+        '/Users/Oakes/Desktop/data/users.dat',
         sep='::', names=['rater_id', 'gender', 'age', 'occ', 'zip_code'],
         header=None)
 

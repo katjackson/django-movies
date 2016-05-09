@@ -15,6 +15,7 @@ def calculate_avg(apps, schema_editor):
         ratings = Rating.objects.filter(movie=movie)
         avg = ratings.aggregate(Avg('rating'))
         movie.avg_rating = avg['rating__avg']
+        print('avg:', avg)
         movie.save()
 
 class Migration(migrations.Migration):
@@ -24,6 +25,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AlterField(
+            model_name='movie',
+            name='avg_rating',
+            field=models.FloatField(blank=True, null=True),
+        ),
         migrations.RunPython(calculate_avg),
 
     ]

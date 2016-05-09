@@ -11,7 +11,7 @@ def initialize_rating_data(apps, schema_editor):
     Rating = apps.get_model('ratingbase', 'Rating')
 
     rating = pd.read_csv(
-        '/Users/kathrynjackson/Code/homework/django-movies/data/ratings.dat',
+        '/Users/Oakes/Desktop/data/ratings.dat',
         sep='::', names=['rater_id', 'movie_id', 'rating', 'timestamp'],
         header=None)
 
@@ -26,7 +26,7 @@ def initialize_rating_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ratingbase', '0010_auto_20160504_2226'),
+        ('ratingbase', '0009_auto_20160504_2226'),
     ]
 
     operations = [
