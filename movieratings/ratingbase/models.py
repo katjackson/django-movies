@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Rater(models.Model):
@@ -62,7 +63,10 @@ class Movie(models.Model):
 class Rating(models.Model):
     rater = models.ForeignKey('Rater', on_delete=models.CASCADE)
     movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
-    rating = models.IntegerField()
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], help_text='Rate 1 - 5 stars')
 
     def __str__(self):
         return 'Rater: {}, Rating: {}, Movie: {}'.format(self.rater, self.rating, self.movie)
+
+    # class Meta:
+    #     unique_together = ('rater', 'movie')

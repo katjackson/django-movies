@@ -5,20 +5,29 @@
 <h2>{{movie}}</h2>
 <p>Average rating: {{movie.avg_rating}}</p>
 
-{% if user.is_authenticated %}
+{% if user.is_authenticated and not rated %}
+    {% if rating_form.errors %}
+        {% for field in rating_form %}
+            {% for error in field.errors %}
+                <div class="alert alert-error">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-error">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
 
-<p>user is authenticated</p>
 <h4>Rate this movie:</h4>
     <form id="user_form" method="post" action="">
 
     {% csrf_token %}
 
-    <!-- Display each form. The as_p method wraps each element in a paragraph
-         (<p>) element. This ensures each element appears on a new line,
-         making everything look neater. -->
     {{ rating_form.as_p }}
 
-    <!-- Provide a button to click to submit the form. -->
     <input type="submit" name="submit" value="Submit" />
 
 {% endif %}

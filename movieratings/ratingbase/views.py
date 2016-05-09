@@ -17,6 +17,7 @@ def index(request):
 
 
 def movie_detail(request, movie_id):
+
     context = {}
 
     movie = get_object_or_404(Movie, movie_id=movie_id)
@@ -25,8 +26,11 @@ def movie_detail(request, movie_id):
     movie_ratings = Rating.objects.filter(movie=movie)
     context['movie_ratings'] = movie_ratings
 
-    rating_form = RatingForm()
-    context['rating_form'] = rating_form
+    if movie_ratings.filter(rater=request.user.rater):
+        context['rated'] = True
+
+    blank_rating_form = RatingForm()
+    context['rating_form'] = blank_rating_form
 
     if request.method == 'POST':
         rating_form = RatingForm(request.POST)
@@ -37,10 +41,8 @@ def movie_detail(request, movie_id):
             new_rating.save()
             return HttpResponseRedirect('/ratingbase/')
         else:
-            print(rating_form.errors)
-
-    else:
-        return render(request, 'ratingbase/movie_detail.html', context)
+            context['rating_form'] = rating_form
+    return render(request, 'ratingbase/movie_detail.html', context)
 
 
 def user_detail(request, rater_id):
