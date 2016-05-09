@@ -47,8 +47,21 @@ def movie_detail(request, movie_id):
 
 def user_detail(request, rater_id):
     rater = get_object_or_404(Rater, rater_id=rater_id)
-    ratings = Rating.objects.filter(rater=rater)
+    ratings = rater.get_ratings()
     return render(request, 'ratingbase/user_detail.html', {'rater': rater, 'ratings': ratings})
+
+
+def rater_profile(request):
+    if request.user.is_authenticated():
+        rater = request.user.rater
+        ratings = rater.get_ratings()
+
+        # if request.method == "DELETE":
+        #     print(dir(request.method))
+
+        return render(request, 'ratingbase/rater_profile.html', {'rater': rater, 'ratings': ratings})
+    else:
+        return HttpResponseRedirect('register.html')
 
 
 @login_required

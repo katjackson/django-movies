@@ -37,6 +37,9 @@ class Rater(models.Model):
         dict_age = dict(AGE_GROUPS)
         return dict_age[self.age]
 
+    def get_ratings(self):
+        return Rating.objects.filter(rater=self)
+
     @staticmethod
     def populate_user_model():
         for rater in Rater.objects.all():
@@ -71,4 +74,4 @@ class Rating(models.Model):
     # class Meta:
     #     unique_together = ('rater', 'movie')
 
-#HI 
+#HI

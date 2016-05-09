@@ -1,13 +1,12 @@
-{% extends "ratingbase/base.html" %}
+Hello, {{ user }}
+<a href="{% url 'logout' %}">Logout</a>
 
-{% block content %}
 
 <p>User ID: {{rater}}<br>
 Gender: {{rater.gender}}<br>
 Age: {{rater.get_age}}<br>
 Occupation: {{rater.get_occupation}}<br>
 Zip Code: {{rater.zip_code}}</p>
-
 
 
 
@@ -21,12 +20,19 @@ Zip Code: {{rater.zip_code}}</p>
     <tr>
         <td headers="c1"><a href='{% url 'ratingbase:movieDetail' rating.movie.movie_id %}'>{{rating.movie}}</a></td>
         {% if rating.review %}
-        <td headers="c2">{{rating.rating}}: {{rating.review}}</td>
+        <td headers="c2">{{rating.rating}}: {{rating.review}}
         {% else %}
-        <td headers="c2">{{rating.rating}}</td>
+        <td headers="c2">{{rating.rating}}
         {% endif %}
+        <form method="PUT" action="">
+        <input type="submit" value="Edit" />
+        </form>
+        <form method="DELETE" action="">
+        <input type="submit" value="Delete" />
+        </form>
+        </td>
+
     </tr>
 
-{% endfor %}
 
-{% endblock %}
+{% endfor %}
