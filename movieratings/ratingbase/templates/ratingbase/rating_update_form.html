@@ -14,10 +14,7 @@
 {% endif %}
 
 <h4>Change you rating for {{rating.movie}}:</h4>
-    <form id="rating_form" method="post" action="">
-
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <input type="submit" name="submit" value="Submit" />
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Update" />
+    </form>

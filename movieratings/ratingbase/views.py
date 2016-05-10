@@ -3,6 +3,8 @@ from .forms import RaterForm, RatingForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
 
 from .models import Movie, Rater, Rating
 
@@ -42,11 +44,13 @@ def movie_detail(request, movie_id):
     return render(request, 'ratingbase/movie_detail.html', context)
 
 
-def user_detail(request, rater_id):
-    rater = get_object_or_404(Rater, rater_id=rater_id)
-    ratings = rater.get_ratings()
-    context = {'rater': rater, 'ratings': ratings}
-    return render(request, 'ratingbase/user_detail.html', context)
+class RaterDetailView(DetailView):
+    model = Rater
+
+    def get_context_data(self, **kwargs):
+        context = super(RaterDetailView, self).get_context_data(**kwargs)
+        context['ratings'] = self.object.get_ratings()
+        return context
 
 
 def rater_profile(request):
@@ -72,25 +76,37 @@ def rater_profile(request):
         return HttpResponseRedirect('/register')
 
 
-@login_required
-def edit(request, id):
+class RatingUpdate(UpdateView):
+    model = Rating
+    fields = ['rating', 'review']
+    template_name_suffix = '_update_form'
 
-    rating = Rating.objects.get(id=id)
-    print(rating, rating.rater, request.user.rater)
-    if rating.rater == request.user.rater:
-
-        if request.method == 'POST':
-            rating_form = RatingForm(request.POST, instance=rating)
-            if rating_form.is_valid():
-                rating_form.save()
-                return HttpResponseRedirect('/ratingbase/rater/profile/')
+    def form_valid(self, form):
+        if form.instance.rater == self.request.user.rater:
+            self.object = form.save()
+            return super(ModelFormMixin, self).form_valid(form)
         else:
-            rating_form = RatingForm()
+            return self.form_invalid(form)
 
-        context = {'form': rating_form, 'rating': rating}
-        return render(request, 'ratingbase/edit.html', context)
-    else:
-        return HttpResponseRedirect('/ratingbase/')
+# @login_required
+# def edit(request, id):
+#
+#     rating = Rating.objects.get(id=id)
+#     print(rating, rating.rater, request.user.rater)
+#     if rating.rater == request.user.rater:
+#
+#         if request.method == 'POST':
+#             rating_form = RatingForm(request.POST, instance=rating)
+#             if rating_form.is_valid():
+#                 rating_form.save()
+#                 return HttpResponseRedirect('/ratingbase/rater/profile/')
+#         else:
+#             rating_form = RatingForm()
+#
+#         context = {'form': rating_form, 'rating': rating}
+#         return render(request, 'ratingbase/edit.html', context)
+#     else:
+#         return HttpResponseRedirect('/ratingbase/')
 
 
 @login_required
