@@ -1,9 +1,6 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .forms import RaterForm, RatingForm
-from django.contrib.auth import authenticate, login, views
-from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -48,7 +45,8 @@ def movie_detail(request, movie_id):
 def user_detail(request, rater_id):
     rater = get_object_or_404(Rater, rater_id=rater_id)
     ratings = rater.get_ratings()
-    return render(request, 'ratingbase/user_detail.html', {'rater': rater, 'ratings': ratings})
+    context = {'rater': rater, 'ratings': ratings}
+    return render(request, 'ratingbase/user_detail.html', context)
 
 
 def rater_profile(request):
@@ -56,12 +54,43 @@ def rater_profile(request):
         rater = request.user.rater
         ratings = rater.get_ratings()
 
-        # if request.method == "DELETE":
-        #     print(dir(request.method))
+        if request.method == "POST":
+            print(request.POST)
+            rating = Rating.objects.get(id=request.POST['rating_id'])
 
-        return render(request, 'ratingbase/rater_profile.html', {'rater': rater, 'ratings': ratings})
+            if request.POST['action'] == 'Delete':
+                print(request.POST)
+                rating.delete()
+            else:
+                print(rating.id)
+                return HttpResponseRedirect(
+                    '/ratingbase/edit/{}'.format(rating.id))
+
+        context = {'rater': rater, 'ratings': ratings}
+        return render(request, 'ratingbase/rater_profile.html', context)
     else:
-        return HttpResponseRedirect('register.html')
+        return HttpResponseRedirect('/register')
+
+
+@login_required
+def edit(request, id):
+
+    rating = Rating.objects.get(id=id)
+    print(rating, rating.rater, request.user.rater)
+    if rating.rater == request.user.rater:
+
+        if request.method == 'POST':
+            rating_form = RatingForm(request.POST, instance=rating)
+            if rating_form.is_valid():
+                rating_form.save()
+                return HttpResponseRedirect('/ratingbase/rater/profile/')
+        else:
+            rating_form = RatingForm()
+
+        context = {'form': rating_form, 'rating': rating}
+        return render(request, 'ratingbase/edit.html', context)
+    else:
+        return HttpResponseRedirect('/ratingbase/')
 
 
 @login_required
@@ -85,7 +114,6 @@ def register(request):
     else:
         user_form = UserCreationForm()
         rater_form = RaterForm()
-    return render(request, "registration/register.html", {
-        'user_form': user_form,
-        'rater_form': rater_form,
-    })
+
+    context = {'user_form': user_form, 'rater_form': rater_form}
+    return render(request, "registration/register.html", context)

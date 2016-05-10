@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^movie/(?P<movie_id>[0-9]+)/$', views.movie_detail, name='movieDetail'),
     url(r'^register/', views.register, name='register'),
     url(r'^redirect/', views.redirect, name='redirect'),
+    url(r'^edit/(?P<id>[0-9]+)$', views.edit, name='edit'),
 ]
