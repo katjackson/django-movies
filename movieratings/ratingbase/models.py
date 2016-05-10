@@ -70,8 +70,3 @@ class Rating(models.Model):
 
     def __str__(self):
         return 'Rater: {}, Rating: {}, Movie: {}'.format(self.rater, self.rating, self.movie)
-
-    # class Meta:
-    #     unique_together = ('rater', 'movie')
-
-#HI
