@@ -1,5 +1,9 @@
-Hello, {{ user }}
-<a href="{% url 'logout' %}">Logout</a>
+<div>
+    <a href="{% url 'ratingbase:index' %}">Home</a>
+    Hello, {{ user }}
+    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'ratingbase:raterProfile' %}">My Profile</a>
+</div>
 
 
 <p>User ID: {{rater}}<br>

@@ -1,6 +1,7 @@
 {% block title %}{{ site_title|default:_('Movie Lens Ratingbase') }}{% endblock %}
 
 <div>
+  <a href="{% url 'ratingbase:index' %}">Home</a>
   {% if user.is_anonymous %}
   <a href="{% url 'login' %}">Login</a>
   <a href="register/">Create an account</a>
