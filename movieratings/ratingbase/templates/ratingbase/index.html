@@ -1,18 +1,80 @@
-{% extends "ratingbase/base.html" %}
+<div class="header"><p style="color:white">{% extends "ratingbase/base.html" %}</p></div>
 
 {% block content %}
-<table>
-    <tr>
-        <th id="c1">Title</th>
-        <th id="c2">Average Rating</th>
-    </tr>
-    {% for movie in top_twenty %}
-    <tr>
-        <td headers="c1"><a href='{% url 'ratingbase:movieDetail' movie.movie_id %}'>{{movie}}</a></td>
-        <td headers="c2">{{movie.avg_rating}}</td>
-    </tr>
 
-{% endfor %}
+{% load staticfiles %}
 
-</table>
-{% endblock %}
+<link rel="stylesheet" type="text/css" href="{% static 'ratingbase/style.css' %}" />
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400, 600' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' href='style.css'/>
+  </head>
+
+  <body>
+    <div class="header">
+      <div class="container">
+        <ul class="nav">
+
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="jumbotron">
+      <div class="container">
+        <div class="main">
+          <!-- <h1 style="color:black">Movielens</h1> -->
+
+
+        </div>
+      </div>
+    </div>
+
+
+      <div class="container">
+        <div class="col">
+
+
+        </div>
+        <div class="col">
+          <h1 style="color:white">Top 20 Films</h1>
+          <table border="1">
+              <tr>
+                  <th id="c1" style="color:white">Title</th>
+                  <th id="c2" style="color:white">Average Rating</th>
+              </tr>
+              {% for movie in top_twenty %}
+              <tr>
+                  <td headers="c1" class="table"><a href='{% url 'ratingbase:movieDetail' movie.movie_id %}'>{{movie}}</a></td>
+                  <td headers="c2" style="color:white" >{{movie.avg_rating}}</td>
+              </tr>
+
+          {% endfor %}
+
+          </table>
+
+        </div>
+        <div class="col">
+
+
+
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        <p class="center">&copy; IRON YARD 2016</p>
+      </div>
+    </div>
+
+
+  {% endblock %}
+  </body>
+
+</html>
